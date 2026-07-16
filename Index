@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Body's Fluid Control Center</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --accent: #60a5fa;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--dark);
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+
+        p.intro {
+            font-size: 1.05rem;
+            color: #475569;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .system-container {
+            background: var(--light);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .status-indicator {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-hydrated {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-dehydrated {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .toggle-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+
+        .toggle-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .step-box {
+            background: white;
+            border-left: 4px solid #cbd5e1;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.4s ease;
+            opacity: 0.7;
+            transform: scale(0.98);
+        }
+
+        .step-box.active {
+            border-left-color: var(--secondary);
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-desc {
+            font-size: 0.92rem;
+            color: #475569;
+        }
+
+        .legs-connection {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .legs-connection h3 {
+            margin-top: 0;
+            color: #166534;
+            font-size: 1.1rem;
+        }
+
+        .legs-connection ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 0.92rem;
+            color: #1e293b;
+        }
+
+        .legs-connection li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>The Body's Fluid Control Center</h1>
+    <p class="intro">Think of your body's fluid management system (RAAS) as an automated emergency backup pump. Toggle the system below to see how it reacts to dehydration.</p>
+    
+    <div class="system-container">
+        <div class="status-bar">
+            <span>Body Status:</span>
+            <span id="statusIndicator" class="status-indicator status-hydrated">Perfect Fluid Levels</span>
+        </div>
+
+        <div id="step1" class="step-box">
+            <div class="step-title">💧 1. The Scout (Renin)</div>
+            <div class="step-desc" id="desc1">The kidneys monitor blood flow constantly. Currently, everything is smooth and stable.</div>
+        </div>
+
+        <div id="step2" class="step-box">
+            <div class="step-title">⚡ 2. The Enforcer (Angiotensin)</div>
+            <div class="step-desc" id="desc2">Blood vessels are naturally relaxed. Blood moves easily around the entire body.</div>
+        </div>
+
+        <div id="step3" class="step-box">
+            <div class="step-title">🔒 3. The Vault (Aldosterone)</div>
+            <div class="step-desc" id="desc3">The kidneys allow natural fluid elimination because the body is well-stocked on water.</div>
+        </div>
+    </div>
+
+    <button id="toggleBtn" class="toggle-btn" onclick="toggleSystem()">Simulate Dehydration</button>
+
+    <div id="legsConnection" class="legs-connection">
+        <h3>🎯 How This Connects to Restless Legs</h3>
+        <ul>
+            <li><strong>Narrowed Circulation:</strong> Because the system tightens blood vessels to keep your blood pressure stable, blood flow to your resting leg muscles slows down in the evening.</li>
+            <li><strong>Linger Tension:</strong> Slower circulation means natural muscle waste takes slightly longer to clear away, which can create that "crawling" or tight sensation.</li>
+            <li><strong>Salt Shifting:</strong> While the system works hard to trap fluids, it can temporarily upset the delicate balance of potassium and magnesium your muscles need to relax.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    let isDehydrated = false;
+
+    function toggleSystem() {
+        isDehydrated = !isDehydrated;
+        
+        const statusIndicator = document.getElementById('statusIndicator');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const legsConnection = document.getElementById('legsConnection');
+        
+        const s1 = document.getElementById('step1');
+        const s2 = document.getElementById('step2');
+        const s3 = document.getElementById('step3');
+        
+        const d1 = document.getElementById('desc1');
+        const d2 = document.getElementById('desc2');
+        const d3 = document.getElementById('desc3');
+
+        if (isDehydrated) {
+            statusIndicator.textContent = "Low Fluids (Dehydrated)";
+            statusIndicator.className = "status-indicator status-dehydrated";
+            toggleBtn.textContent = "Rehydrate Body";
+            legsConnection.style.display = "block";
+
+            // Activate Steps with customized text
+            s1.classList.add('active');
+            d1.innerHTML = "<strong>Alarm sounded!</strong> Fluid levels drop, lowering blood pressure. The kidneys immediately release a chemical scout called <em>Renin</em> to start a rescue mission.";
+            
+            setTimeout(() => {
+                s2.classList.add('active');
+                d2.innerHTML = "<strong>Vessels tighten!</strong> Renin triggers a powerful chemical called <em>Angiotensin</em>. It narrows blood vessels like a tight rubber band to protect your vital organs, and triggers thirst.";
+            }, 400);
+
+            setTimeout(() => {
+                s3.classList.add('active');
+                d3.innerHTML = "<strong>Lockdown mode!</strong> The system releases a hormone called <em>Aldosterone</em>, telling the kidneys to slam the brakes on fluid loss and aggressively trap salt and water.";
+            }, 800);
+
+        } else {
+            statusIndicator.textContent = "Perfect Fluid Levels";
+            statusIndicator.className = "status-indicator status-hydrated";
+            toggleBtn.textContent = "Simulate Dehydration";
+            legsConnection.style.display = "none";
+
+            // Reset Steps
+            s1.classList.remove('active');
+            s2.classList.remove('active');
+            s3.classList.remove('active');
+            
+            d1.textContent = "The kidneys monitor blood flow constantly. Currently, everything is smooth and stable.";
+            d2.textContent = "Blood vessels are naturally relaxed. Blood moves easily around the entire body.";
+            d3.textContent = "The kidneys allow natural fluid elimination because the body is well-stocked on water.";
+        }
+    }
+</script>
+
+</body>
+</html>
